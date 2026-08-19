@@ -7,8 +7,27 @@ A framework-agnostic PHP SDK for the [Naver MYBOX Open API](https://developers.m
 - Covers all 20 published endpoints, one typed method each
 - PSR-18 / PSR-17 based — brings no HTTP client of its own
 - Readonly models and backed enums instead of associative arrays
-- Transparent cursor pagination, resumable uploads, streamed downloads
+- Transparent cursor pagination, streaming uploads and downloads
 - Automatic backoff on the statuses that deserve it, and a typed exception per error code
+
+**Getting started:** [Requirements](#requirements) ·
+[Installation](#installation) ·
+[Getting a personal access token](#getting-a-personal-access-token) ·
+[Quick start](#quick-start)
+
+**Reference:** [Endpoints](#endpoints) ·
+[Listing and sorting](#listing-and-sorting) ·
+[Uploading](#uploading) ·
+[Downloading](#downloading) ·
+[Searching](#searching) ·
+[Paths](#paths)
+
+**Operating it:** [Error handling](#error-handling) ·
+[Retries](#retries) ·
+[Rate limits](#rate-limits) ·
+[Behaviour worth knowing](#behaviour-worth-knowing) ·
+[What the API does not cover](#what-the-api-does-not-cover) ·
+[Custom HTTP wiring](#custom-http-wiring)
 
 ## Requirements
 
@@ -320,7 +339,7 @@ $mybox = new MyboxClient(
 );
 ```
 
-## Development
+## Contributing
 
 ```bash
 composer install
@@ -329,14 +348,9 @@ composer analyse     # PHPStan level 9
 composer cs          # coding standards
 ```
 
-Integration tests run against a real account and are excluded by default:
-
-```bash
-MYBOX_PAT=mbx_pat_xxx composer test:integration
-```
-
-They work inside a dedicated `__php_mybox_sdk_test__` folder and clean up after
-themselves, including emptying it from the trash.
+[CONTRIBUTING.md](CONTRIBUTING.md) covers the layout, the conventions, how to
+add an endpoint, and the rules for the integration suite — which talks to a
+real account and is excluded from `composer test`.
 
 ## License
 
