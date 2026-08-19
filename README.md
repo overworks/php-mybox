@@ -1,6 +1,17 @@
 # php-mybox
 
-A framework-agnostic PHP SDK for the [Naver MYBOX Open API](https://developers.mybox.naver.com/).
+[![Packagist](https://img.shields.io/packagist/v/minhyung/mybox.svg)](https://packagist.org/packages/minhyung/mybox)
+[![PHP](https://img.shields.io/packagist/dependency-v/minhyung/mybox/php.svg)](https://packagist.org/packages/minhyung/mybox)
+[![CI](https://github.com/overworks/php-mybox/actions/workflows/ci.yml/badge.svg)](https://github.com/overworks/php-mybox/actions/workflows/ci.yml)
+[![PHPStan](https://img.shields.io/badge/PHPStan-level%209-brightgreen.svg)](phpstan.neon.dist)
+[![License](https://img.shields.io/packagist/l/minhyung/mybox.svg)](LICENSE)
+
+A framework-agnostic PHP SDK for the
+[Naver MYBOX Open API](https://developers.mybox.naver.com/).
+
+```bash
+composer require minhyung/mybox
+```
 
 한국어 문서는 [README.ko.md](README.ko.md)를 참고하세요.
 
@@ -10,37 +21,29 @@ A framework-agnostic PHP SDK for the [Naver MYBOX Open API](https://developers.m
 - Transparent cursor pagination, streaming uploads and downloads
 - Automatic backoff on the statuses that deserve it, and a typed exception per error code
 
-**Getting started:** [Requirements](#requirements) ·
-[Installation](#installation) ·
-[Getting a personal access token](#getting-a-personal-access-token) ·
-[Quick start](#quick-start)
-
-**Reference:** [Endpoints](#endpoints) ·
-[Listing and sorting](#listing-and-sorting) ·
-[Uploading](#uploading) ·
-[Downloading](#downloading) ·
-[Searching](#searching) ·
-[Paths](#paths)
-
-**Operating it:** [Error handling](#error-handling) ·
-[Retries](#retries) ·
-[Rate limits](#rate-limits) ·
-[Behaviour worth knowing](#behaviour-worth-knowing) ·
-[What the API does not cover](#what-the-api-does-not-cover) ·
-[Custom HTTP wiring](#custom-http-wiring)
+| | |
+| --- | --- |
+| **Getting started** | [Requirements](#requirements) · [Installation](#installation) · [Personal access token](#getting-a-personal-access-token) · [Quick start](#quick-start) |
+| **Reference** | [Endpoints](#endpoints) · [Listing and sorting](#listing-and-sorting) · [Uploading](#uploading) · [Downloading](#downloading) · [Searching](#searching) · [Paths](#paths) |
+| **Operating it** | [Error handling](#error-handling) · [Retries](#retries) · [Rate limits](#rate-limits) · [Behaviour worth knowing](#behaviour-worth-knowing) · [Not covered](#what-the-api-does-not-cover) · [Custom HTTP wiring](#custom-http-wiring) |
 
 ## Requirements
 
-PHP 8.2+ and any PSR-18 HTTP client. If your project does not already have one:
-
-```bash
-composer require guzzlehttp/guzzle
-```
+PHP 8.2 or newer.
 
 ## Installation
 
 ```bash
 composer require minhyung/mybox
+```
+
+The SDK talks to whatever [PSR-18](https://www.php-fig.org/psr/psr-18/) HTTP
+client your project already has, and finds it through
+[php-http/discovery](https://docs.php-http.org/en/latest/discovery.html) — no
+wiring needed. If you do not have one yet, any of these will do:
+
+```bash
+composer require guzzlehttp/guzzle      # or symfony/http-client, kriswallsmith/buzz, …
 ```
 
 ## Getting a personal access token

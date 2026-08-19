@@ -1,7 +1,17 @@
 # php-mybox
 
+[![Packagist](https://img.shields.io/packagist/v/minhyung/mybox.svg)](https://packagist.org/packages/minhyung/mybox)
+[![PHP](https://img.shields.io/packagist/dependency-v/minhyung/mybox/php.svg)](https://packagist.org/packages/minhyung/mybox)
+[![CI](https://github.com/overworks/php-mybox/actions/workflows/ci.yml/badge.svg)](https://github.com/overworks/php-mybox/actions/workflows/ci.yml)
+[![PHPStan](https://img.shields.io/badge/PHPStan-level%209-brightgreen.svg)](phpstan.neon.dist)
+[![License](https://img.shields.io/packagist/l/minhyung/mybox.svg)](LICENSE)
+
 [네이버 MYBOX Open API](https://developers.mybox.naver.com/)용 PHP SDK입니다.
 프레임워크에 의존하지 않습니다.
+
+```bash
+composer require minhyung/mybox
+```
 
 English documentation: [README.md](README.md)
 
@@ -11,37 +21,29 @@ English documentation: [README.md](README.md)
 - 커서 페이징 자동 처리, 업로드·다운로드 모두 스트리밍
 - 재시도할 가치가 있는 상태 코드에만 자동 백오프, 에러 코드별 전용 예외
 
-**시작하기:** [요구 사항](#요구-사항) ·
-[설치](#설치) ·
-[개인 액세스 토큰 발급](#개인-액세스-토큰-발급) ·
-[빠르게 시작하기](#빠르게-시작하기)
-
-**레퍼런스:** [엔드포인트](#엔드포인트) ·
-[목록 조회와 정렬](#목록-조회와-정렬) ·
-[업로드](#업로드) ·
-[다운로드](#다운로드) ·
-[검색](#검색) ·
-[경로로 찾기](#경로로-찾기)
-
-**운영:** [에러 처리](#에러-처리) ·
-[재시도](#재시도) ·
-[API 사용 한도](#api-사용-한도) ·
-[알아둘 동작](#알아둘-동작) ·
-[Open API가 지원하지 않는 범위](#open-api가-지원하지-않는-범위) ·
-[HTTP 계층 직접 지정](#http-계층-직접-지정)
+| | |
+| --- | --- |
+| **시작하기** | [요구 사항](#요구-사항) · [설치](#설치) · [개인 액세스 토큰 발급](#개인-액세스-토큰-발급) · [빠르게 시작하기](#빠르게-시작하기) |
+| **레퍼런스** | [엔드포인트](#엔드포인트) · [목록 조회와 정렬](#목록-조회와-정렬) · [업로드](#업로드) · [다운로드](#다운로드) · [검색](#검색) · [경로로 찾기](#경로로-찾기) |
+| **운영** | [에러 처리](#에러-처리) · [재시도](#재시도) · [API 사용 한도](#api-사용-한도) · [알아둘 동작](#알아둘-동작) · [미지원 범위](#open-api가-지원하지-않는-범위) · [HTTP 계층 직접 지정](#http-계층-직접-지정) |
 
 ## 요구 사항
 
-PHP 8.2 이상과 PSR-18 HTTP 클라이언트 하나. 프로젝트에 아직 없다면:
-
-```bash
-composer require guzzlehttp/guzzle
-```
+PHP 8.2 이상.
 
 ## 설치
 
 ```bash
 composer require minhyung/mybox
+```
+
+프로젝트에 이미 있는 [PSR-18](https://www.php-fig.org/psr/psr-18/) HTTP
+클라이언트를 그대로 사용하며,
+[php-http/discovery](https://docs.php-http.org/en/latest/discovery.html)가
+알아서 찾아냅니다 — 별도 배선이 필요 없습니다. 아직 없다면 아무거나 하나:
+
+```bash
+composer require guzzlehttp/guzzle      # symfony/http-client, kriswallsmith/buzz 등도 가능
 ```
 
 ## 개인 액세스 토큰 발급
