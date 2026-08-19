@@ -1,0 +1,54 @@
+{
+    "name": "minhyung/mybox",
+    "description": "A framework-agnostic PHP SDK for the Naver MYBOX Open API",
+    "keywords": ["mybox", "naver", "sdk", "cloud-storage", "psr-18"],
+    "homepage": "https://github.com/overworks/php-mybox",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Minhyung Park",
+            "email": "urlinee@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "^8.2",
+        "ext-json": "*",
+        "psr/http-client": "^1.0",
+        "psr/http-factory": "^1.0",
+        "psr/http-message": "^1.1 || ^2.0",
+        "php-http/discovery": "^1.19"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^11.0",
+        "php-http/mock-client": "^1.6",
+        "guzzlehttp/guzzle": "^7.8",
+        "guzzlehttp/psr7": "^2.6",
+        "phpstan/phpstan": "^2.0",
+        "friendsofphp/php-cs-fixer": "^3.51"
+    },
+    "autoload": {
+        "psr-4": {
+            "Minhyung\\Mybox\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Minhyung\\Mybox\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "test": "phpunit --exclude-group integration",
+        "test:integration": "phpunit --group integration",
+        "analyse": "phpstan analyse",
+        "cs": "php-cs-fixer fix --dry-run --diff",
+        "cs:fix": "php-cs-fixer fix"
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "php-http/discovery": true
+        }
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}
