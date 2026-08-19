@@ -351,6 +351,10 @@ composer cs          # 코딩 스타일 검사
 통합 테스트(기본적으로 `composer test`에서 제외됨)의 취급 규칙은
 [CONTRIBUTING.md](CONTRIBUTING.md)에 정리되어 있습니다.
 
+## 변경 이력
+
+[CHANGELOG.md](CHANGELOG.md)를 참고하세요.
+
 ## 라이선스
 
 MIT. [LICENSE](LICENSE)를 참고하세요.

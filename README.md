@@ -352,6 +352,10 @@ composer cs          # coding standards
 add an endpoint, and the rules for the integration suite — which talks to a
 real account and is excluded from `composer test`.
 
+## Changelog
+
+See [CHANGELOG.md](CHANGELOG.md).
+
 ## License
 
 MIT. See [LICENSE](LICENSE).

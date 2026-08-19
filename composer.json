@@ -4,6 +4,10 @@
     "keywords": ["mybox", "naver", "sdk", "cloud-storage", "psr-18"],
     "homepage": "https://github.com/overworks/php-mybox",
     "license": "MIT",
+    "support": {
+        "issues": "https://github.com/overworks/php-mybox/issues",
+        "source": "https://github.com/overworks/php-mybox"
+    },
     "authors": [
         {
             "name": "Minhyung Park",
