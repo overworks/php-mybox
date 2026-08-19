@@ -1,6 +1,8 @@
 composer.phar
-/vendor/
-/composer.lock
-/.phpunit.cache/
-/.php-cs-fixer.cache
-/.env
+vendor/
+composer.lock
+.phpunit.cache/
+.php-cs-fixer.cache
+.env
+auth.json
+*.local
