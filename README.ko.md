@@ -186,8 +186,12 @@ $mybox->upload()->fromFile('/tmp/big.zip', resume: true);
 실제 바이트 전송은 별도 스토리지 호스트로 가는 두 번째 호출이며, 그 규약은 공식
 문서에 없습니다. 실제 서비스를 상대로 확인한 내용을
 [docs/transfer-protocol.md](docs/transfer-protocol.md)에 정리해 두었습니다.
-`resume`만은 확인하지 못했습니다 — 중단된 업로드가 0이 아닌 offset을 남기는
-경우를 재현할 수 없었습니다.
+
+`resume: true`는 이전에 중단된 전송의 일부를 MYBOX가 보관하고 있는지 묻고 그
+지점부터 이어서 보냅니다. 알아둘 함정이 두 가지 있고 둘 다 SDK가 처리합니다.
+MYBOX는 중단된 업로드를 `modifiedTime` 문자열로 식별하는데 KST 표기만 인식하므로
+호출자의 타임존과 무관하게 항상 KST로 전송하며, `isOverwrite`를 함께 주면 offset이
+0으로 보고되므로 두 옵션은 같이 쓰지 마세요.
 
 ## 다운로드
 

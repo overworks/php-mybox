@@ -35,8 +35,8 @@ The API has behaviour Naver does not document, recorded in
 - Purging is eventually consistent — the id answers for a moment, then 404s.
 - An interrupted upload locks the file, and re-reserving it returns 423.
 - The upload part name must be exactly `Filedata`. Any other casing is a 400.
-- `resume` is implemented but unverified; no interrupted upload has been
-  observed to leave a non-zero offset.
+- `resume` only works when `modifiedTime` is spelled in KST and `isOverwrite`
+  is left unset. Both are handled in `UploadRequest`; do not "simplify" either.
 
 ## When you touch prose
 

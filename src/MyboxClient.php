@@ -38,7 +38,7 @@ use Psr\Http\Message\StreamFactoryInterface;
  */
 final class MyboxClient
 {
-    public const VERSION = '0.1.0';
+    public const VERSION = '0.1.1';
 
     private readonly Transport $transport;
     private readonly DriveApi $drive;

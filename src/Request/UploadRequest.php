@@ -15,6 +15,14 @@ use Minhyung\Mybox\Exception\InvalidArgumentException;
 final class UploadRequest
 {
     /**
+     * MYBOX matches an interrupted upload by the literal `modifiedTime` string
+     * it was reserved with, and only ever recognises the KST spelling. The same
+     * instant written as `+00:00` is treated as a different file, so resuming
+     * from a host in any other timezone would silently restart the upload.
+     */
+    private const MODIFIED_TIME_TIMEZONE = 'Asia/Seoul';
+
+    /**
      * @param string             $fileName     Include the extension; MYBOX does not infer one.
      * @param int                $fileSize     Exact byte length of the payload.
      * @param string|null        $parentId     Destination folder; the root is used when null.
@@ -23,6 +31,8 @@ final class UploadRequest
      *                                         {@see \Minhyung\Mybox\Model\UploadTicket::$offset}.
      * @param \DateTimeInterface|null $modifiedTime Required whenever `$resume` is true —
      *                                         MYBOX uses it to recognise the interrupted upload.
+     *                                         Pass it in any timezone; it is sent as KST, which
+     *                                         is the only spelling MYBOX will match.
      */
     public function __construct(
         public readonly string $fileName,
@@ -66,7 +76,9 @@ final class UploadRequest
         }
 
         if ($this->modifiedTime !== null) {
-            $body['modifiedTime'] = $this->modifiedTime->format(\DateTimeInterface::ATOM);
+            $body['modifiedTime'] = \DateTimeImmutable::createFromInterface($this->modifiedTime)
+                ->setTimezone(new \DateTimeZone(self::MODIFIED_TIME_TIMEZONE))
+                ->format(\DateTimeInterface::ATOM);
         }
 
         return $body;

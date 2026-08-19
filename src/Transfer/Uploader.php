@@ -43,10 +43,11 @@ final class Uploader
      * @param string|null $fileName  Name to store it under; the basename of `$localPath` by default.
      * @param string|null $parentId  Destination folder; the root when null.
      * @param bool        $resume    Ask MYBOX whether part of this file is already stored and
-     *                               continue from there. Requires the file's modification time,
-     *                               which is read from `$localPath`. Note that no interrupted
-     *                               upload has yet been observed to leave a non-zero offset —
-     *                               see `docs/transfer-protocol.md`.
+     *                               continue from there. The file's modification time is read
+     *                               from `$localPath` and identifies the interrupted upload.
+     *                               Leave `$isOverwrite` unset when resuming: asking to
+     *                               overwrite tells MYBOX to start the file again, and the
+     *                               offset comes back as zero.
      */
     public function fromFile(
         string $localPath,

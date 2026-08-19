@@ -3,6 +3,28 @@
 This project follows [Semantic Versioning](https://semver.org/). While the
 major version is `0`, a minor bump may carry a breaking change.
 
+## 0.1.1 — 2026-08-19
+
+### Fixed
+
+- **Resuming an interrupted upload never actually resumed outside KST.** MYBOX
+  identifies an interrupted upload by the literal `modifiedTime` string the
+  reservation carried, and only recognises the `+09:00` spelling — the same
+  instant written as `+00:00` is treated as a different file. Because
+  `Uploader::fromFile()` formatted that string in the system timezone,
+  `resume: true` silently restarted the upload on any host not set to
+  Asia/Seoul. `UploadRequest` now converts to KST before sending, whatever
+  timezone the caller uses.
+
+### Documented
+
+Resumable uploads are now verified end to end, and
+[docs/transfer-protocol.md](docs/transfer-protocol.md) records what governs
+them: `isOverwrite` suppresses the offset, a short body is rejected as a size
+mismatch rather than accepted as a partial write, and a reservation answers
+`423 LOCKED` for about two seconds after the connection dies before the offset
+appears.
+
 ## 0.1.0 — 2026-08-19
 
 First release. Covers the Naver MYBOX Open API as published at
@@ -45,8 +67,5 @@ consistent, and an interrupted upload locks the file.
 
 ### Known limitations
 
-- `resume` is implemented but unverified. No interrupted upload has been
-  observed to leave a non-zero offset behind, so the `Content-Range` framing
-  the SDK sends in that case has never been exercised against a real resume.
 - Password-protected folders and folders shared with the account are not
   reachable through the Open API, and so not through this SDK.

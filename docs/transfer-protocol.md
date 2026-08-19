@@ -69,21 +69,40 @@ byte for both ASCII and UTF-8 content.
 **Size must be exact.** `fileSize` in the reservation must equal the bytes
 actually sent. Sending fewer answers `500 {"message":"File Storage Error"}`.
 
-**Resume does not appear to retain partial bytes.** The API exposes
-`resume`/`modifiedTime` on the reservation and an `offset` in the response, and
-the SDK implements both, but no partial upload could be made to produce a
-non-zero offset:
+When resuming, send the remaining bytes with
+`Content-Range: {offset}-{fileSize-1}/{fileSize}` — note the bare form, with no
+RFC 9110 `bytes ` prefix.
 
-- Sending a deliberately short body is treated as a size mismatch (500), not as
-  a partial write.
-- Cutting the socket mid-transfer makes the next reservation for that file
-  answer `423 LOCKED` while the server still holds the interrupted transfer.
-  Once the lock clears, the offset is back to `0` — the partial bytes were
-  discarded.
+**Resumable uploads work, with two catches.** MYBOX does keep the bytes of an
+interrupted transfer, and reserving again reports them as `offset`:
 
-So the `Content-Range` framing this SDK sends when `offset > 0` (the bare
-`start-end/total` form, without the RFC 9110 `bytes ` prefix) is **not
-verified**. Everything else on this page is.
+```php
+$mybox->upload()->fromFile('/tmp/big.zip', resume: true);
+```
+
+- **`modifiedTime` is matched as a literal string, and only in KST.** MYBOX
+  identifies the interrupted upload by the exact `modifiedTime` it was reserved
+  with. The same instant written as `2026-01-01T18:04:05+00:00` instead of
+  `2026-01-02T03:04:05+09:00` is treated as a different file and silently
+  restarts the upload. Measured across three spellings of one instant, only
+  `+09:00` resumed. The SDK therefore converts to `Asia/Seoul` before sending,
+  whatever timezone the caller is in.
+- **`isOverwrite` suppresses the offset.** Reserving with `isOverwrite: true`
+  reports `offset: 0`, because asking to overwrite means starting the file
+  again. The retained bytes are not destroyed — omitting `isOverwrite` on a
+  later reservation reports them again — but the two options are mutually
+  exclusive in one call. `fromFile(resume: true)` leaves `isOverwrite` unset
+  for this reason.
+
+Two further details: a partial upload cannot be *faked* — sending a body
+shorter than the declared `fileSize` is a size mismatch and answers
+`500 {"message":"File Storage Error"}`, and the same goes for an explicitly
+ranged chunk. The interruption has to be a real one. And for roughly two
+seconds after the connection dies, reserving again answers `423 LOCKED`; the
+offset appears once that clears.
+
+Verified end to end from a UTC host: a 24 MB file cut after 10 MB, resumed
+through `fromFile(resume: true)`, downloaded and compared byte for byte.
 
 **Trashing does not hide a resource from `get()`.** After
 `DELETE /v1/drive/resources/{id}` the id stays readable; only its `parentId`
@@ -115,7 +134,9 @@ $mybox = new MyboxClient(new ClientConfig($token), uploadStrategy: new MyStrateg
 echo 'MYBOX_PAT=mbx_pat_…' > .env
 
 php tools/verify-sdk.php        # drives the SDK's upload/download end to end
-php tools/cleanup-sandbox.php   # removes any probe folder left behind
+composer test:integration       # includes ResumableUploadTest, which cuts a
+                                # transfer over a raw socket and resumes it
+php tools/cleanup-sandbox.php   # removes any sandbox left behind
 ```
 
 Both work inside `__php_mybox_sdk_probe__` / `__php_mybox_sdk_test__` and clean

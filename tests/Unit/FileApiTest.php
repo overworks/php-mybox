@@ -91,6 +91,41 @@ final class FileApiTest extends TestCase
         ], $body);
     }
 
+    public function testModifiedTimeIsAlwaysSentAsKstWhateverTheCallersTimezone(): void
+    {
+        // MYBOX matches an interrupted upload by the literal modifiedTime
+        // string and only recognises the KST spelling, so an identical instant
+        // written in another zone would silently restart the upload.
+        $instant = new \DateTimeImmutable('2026-01-02T03:04:05+09:00');
+
+        foreach (['UTC', 'America/New_York', 'Asia/Seoul', 'Australia/Sydney'] as $timezone) {
+            $body = (new UploadRequest(
+                fileName: 'a.bin',
+                fileSize: 10,
+                resume: true,
+                modifiedTime: $instant->setTimezone(new \DateTimeZone($timezone)),
+            ))->toBody();
+
+            self::assertSame(
+                '2026-01-02T03:04:05+09:00',
+                $body['modifiedTime'],
+                sprintf('A caller in %s should still send KST.', $timezone),
+            );
+        }
+    }
+
+    public function testAMutableDateTimeIsAcceptedForModifiedTime(): void
+    {
+        $body = (new UploadRequest(
+            fileName: 'a.bin',
+            fileSize: 10,
+            resume: true,
+            modifiedTime: new \DateTime('2026-01-01T18:04:05+00:00'),
+        ))->toBody();
+
+        self::assertSame('2026-01-02T03:04:05+09:00', $body['modifiedTime']);
+    }
+
     public function testCreateDownloadUrlReturnsTheTicket(): void
     {
         $this->willRespondWithFixture('download_ticket');

@@ -185,10 +185,15 @@ the per-file ceiling.
 
 Sending the bytes is a second call to a separate storage host, and its wire
 format is not part of the published documentation. It was established against
-the live service and is documented in
-[docs/transfer-protocol.md](docs/transfer-protocol.md); `resume` is the one
-part that could not be confirmed, since no interrupted upload was ever observed
-to leave a non-zero offset behind.
+the live service and is written up in
+[docs/transfer-protocol.md](docs/transfer-protocol.md).
+
+`resume: true` asks MYBOX whether it kept part of an earlier, interrupted
+transfer and continues from there. Two quirks are worth knowing, both handled
+for you: MYBOX identifies the interrupted upload by the `modifiedTime` string
+and only recognises the KST spelling, so the SDK always sends KST whatever
+timezone you are in; and `isOverwrite` suppresses the offset, so do not combine
+the two.
 
 ## Downloading
 
