@@ -26,6 +26,7 @@ English documentation: [README.md](README.md)
 | **시작하기** | [요구 사항](#요구-사항) · [설치](#설치) · [개인 액세스 토큰 발급](#개인-액세스-토큰-발급) · [빠르게 시작하기](#빠르게-시작하기) |
 | **레퍼런스** | [엔드포인트](#엔드포인트) · [목록 조회와 정렬](#목록-조회와-정렬) · [업로드](#업로드) · [다운로드](#다운로드) · [검색](#검색) · [경로로 찾기](#경로로-찾기) |
 | **운영** | [에러 처리](#에러-처리) · [재시도](#재시도) · [API 사용 한도](#api-사용-한도) · [알아둘 동작](#알아둘-동작) · [미지원 범위](#open-api가-지원하지-않는-범위) · [HTTP 계층 직접 지정](#http-계층-직접-지정) |
+| **함께 쓰기** | [Flysystem 어댑터](#flysystem) |
 
 ## 요구 사항
 
@@ -343,6 +344,29 @@ $mybox = new MyboxClient(
     streamFactory: $myPsr17Factory,
 );
 ```
+
+## Flysystem
+
+[`minhyung/flysystem-mybox`](https://github.com/overworks/flysystem-mybox)는 이
+SDK를 [Flysystem](https://flysystem.thephpleague.com/) v3 어댑터로 감싼
+패키지입니다. `League\Flysystem\Filesystem`으로, 또는 Laravel의 `Storage`
+디스크로 MYBOX를 쓸 수 있습니다. Flysystem 공식 어댑터 적합성 테스트를
+통과합니다.
+
+```bash
+composer require minhyung/flysystem-mybox
+```
+
+```php
+use League\Flysystem\Filesystem;
+use Minhyung\Flysystem\Mybox\MyboxAdapter;
+
+$filesystem = new Filesystem(new MyboxAdapter(MyboxClient::create($token)));
+```
+
+파일시스템 코드를 이식 가능하게 쓰고 싶다면 어댑터를, Flysystem에 대응하는
+개념이 없는 기능 — 휴지통, 즐겨찾기, 용량 조회, 검색, 이어올리기 — 이 필요하면
+이 SDK를 직접 쓰세요.
 
 ## 기여하기
 

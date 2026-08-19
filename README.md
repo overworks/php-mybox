@@ -26,6 +26,7 @@ composer require minhyung/mybox
 | **Getting started** | [Requirements](#requirements) · [Installation](#installation) · [Personal access token](#getting-a-personal-access-token) · [Quick start](#quick-start) |
 | **Reference** | [Endpoints](#endpoints) · [Listing and sorting](#listing-and-sorting) · [Uploading](#uploading) · [Downloading](#downloading) · [Searching](#searching) · [Paths](#paths) |
 | **Operating it** | [Error handling](#error-handling) · [Retries](#retries) · [Rate limits](#rate-limits) · [Behaviour worth knowing](#behaviour-worth-knowing) · [Not covered](#what-the-api-does-not-cover) · [Custom HTTP wiring](#custom-http-wiring) |
+| **Ecosystem** | [Flysystem adapter](#flysystem) |
 
 ## Requirements
 
@@ -346,6 +347,28 @@ $mybox = new MyboxClient(
     streamFactory: $myPsr17Factory,
 );
 ```
+
+## Flysystem
+
+[`minhyung/flysystem-mybox`](https://github.com/overworks/flysystem-mybox) wraps
+this SDK in a [Flysystem](https://flysystem.thephpleague.com/) v3 adapter, so
+MYBOX can be used through `League\Flysystem\Filesystem` or as a Laravel
+`Storage` disk. It passes Flysystem's adapter conformance suite.
+
+```bash
+composer require minhyung/flysystem-mybox
+```
+
+```php
+use League\Flysystem\Filesystem;
+use Minhyung\Flysystem\Mybox\MyboxAdapter;
+
+$filesystem = new Filesystem(new MyboxAdapter(MyboxClient::create($token)));
+```
+
+Use it when you want portable filesystem code, and this SDK directly when you
+want the parts Flysystem has no vocabulary for — the trash, favourites, storage
+quota, search, and resumable uploads.
 
 ## Contributing
 
