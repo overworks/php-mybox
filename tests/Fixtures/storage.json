@@ -1,0 +1,16 @@
+{
+  "fileCounts": {
+    "archive": 5,
+    "audio": 8,
+    "document": 30,
+    "etc": 23,
+    "executable": 2,
+    "image": 40,
+    "total": 120,
+    "video": 12
+  },
+  "maxFileBytes": 53687091200,
+  "quotaBytes": 32212254720,
+  "trashAutoDeleteDays": 5,
+  "usedBytes": 5368709120
+}

@@ -1,0 +1,22 @@
+{
+  "fileCount": 12,
+  "resources": [
+    {
+      "accessedAt": "2026-08-11T09:00:00+09:00",
+      "category": "image",
+      "createdAt": "2026-08-11T09:00:00+09:00",
+      "deletedAt": "2026-08-11T10:00:00+09:00",
+      "lastModifiedBy": "mybox_user",
+      "modifiedAt": "2026-08-11T09:00:00+09:00",
+      "name": "회의록.pdf",
+      "parentId": "Kd7ZmR2vT9xQ4nB6wL1yHc3pJ8sF5gA0uE",
+      "resourceId": "hV3sQ9pLzR2mT7kXwB5nDcF8gJ4yA6uE0o",
+      "size": 1048576,
+      "type": "file"
+    }
+  ],
+  "responseMetaData": {
+    "nextCursor": "MjA"
+  },
+  "subFolderCount": 3
+}

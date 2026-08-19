@@ -1,0 +1,16 @@
+{
+  "resources": [
+    {
+      "createdAt": "2026-06-26T15:04:05+09:00",
+      "modifiedAt": "2026-06-26T15:04:05+09:00",
+      "name": "사진",
+      "parentId": "bnZfZHJpdmUwNDN8MjU1Nzg1MzIxMjU0NTJ8RHww",
+      "parentPath": "/문서/",
+      "path": "/문서/사진/",
+      "resourceId": "bnZfZHJpdmUwNDN8MjU1Nzg1MzIxMjY3ODl8RHww"
+    }
+  ],
+  "responseMetaData": {
+    "nextCursor": "Mjk5MTIzNDU2Nzg5MDE"
+  }
+}
